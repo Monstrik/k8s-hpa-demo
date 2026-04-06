@@ -9,11 +9,21 @@ echo "🔍 Verifying Metrics APIService..."
 kubectl get apiservice v1beta1.metrics.k8s.io
 
 echo
-echo "🔍 Checking node metrics..."
+echo "⏳ Waiting for metrics to become available..."
+until kubectl top nodes >/dev/null 2>&1; do
+  echo "  ⏳ Metrics not available yet, waiting..."
+  sleep 5
+done
+
+echo
+echo "✅ Metrics are now available."
+
+echo
+echo "🔍 Node metrics:"
 kubectl top nodes
 
 echo
-echo "🔍 Checking pod metrics in demo namespace..."
+echo "🔍 Pod metrics in demo namespace:"
 kubectl top pods -n test
 
 echo
