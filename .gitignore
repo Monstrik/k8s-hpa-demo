@@ -1,0 +1,10 @@
+# IDEs
+.idea/
+.vscode/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# OS files
+.DS_Store
