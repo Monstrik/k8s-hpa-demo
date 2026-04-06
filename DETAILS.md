@@ -1,4 +1,4 @@
-# Kubernetes HPA Demo — Extended Student Notes (Concept‑First)
+# Kubernetes HPA Demo — Extended Notes (Concept‑First)
 
 ## 1. Minikube
 
@@ -450,8 +450,6 @@ Always clean:
 ***
 
 # Final Mental Model (Most Important)
-
-Give students this **single mental model**:
 
 > **Kubernetes does not scale traffic.  
 > It scales capacity based on measured resource usage.**
