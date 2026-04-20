@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 set -e
+echo "✅ Starting minikube..."
+minikube start
 
 echo "✅ Checking kubectl connectivity..."
 kubectl version --client
