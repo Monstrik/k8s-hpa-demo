@@ -15,7 +15,6 @@ Run each script in order:
 4. 02-deploy-nginx-check.sh
 5. 03-build-metrics-server-image.sh
 6. 03-install-metrics-server-offline.sh
-7. 03-metrics-service-cleanup.sh
 8. 04-verify-metrics.sh
 9. 05-create-hpa.sh
 10. 05-verify-hpa.sh
@@ -34,3 +33,9 @@ Run each script in order:
 **Mental model:** HPA adds pods when busy, but does not move work.
 
 HPA only increases or decreases the number of pods based on resource usage (like CPU), but it does not redistribute or balance the actual workload (such as requests or CPU tasks) between pods. If one pod is overloaded and others are idle, HPA will add more pods, but it’s up to your application or a load balancer to distribute the work evenly among all pods. HPA only changes the number of pods, not how the work is assigned to them.
+
+---
+
+### reset-metrics-server.sh
+
+This script deletes the metrics-server and related resources. **Do not run it during the demo**—it will break metrics and cause the demo to fail. Only use it if you need to reset or troubleshoot the metrics-server before starting the demo.
