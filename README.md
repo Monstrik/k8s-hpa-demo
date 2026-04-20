@@ -1,40 +1,36 @@
-# Kubernetes HPA Demo 
+# Kubernetes HPA Demo
 
-This repository contains a set of scripts to demonstrate Kubernetes Horizontal Pod Autoscaler (HPA) using a custom metrics server within a `minikube` environment.
+Quick demo of Kubernetes Horizontal Pod Autoscaler (HPA) using a custom metrics server in minikube.
 
 ## Prerequisites
+- kubectl
+- minikube
+- docker
 
-- `kubectl`
-- `minikube`
-- `docker`
+## Quick Start
+Run each script in order:
+1. 00-verify-env.sh
+2. 01-create-namespace.sh
+3. 02-deploy-nginx.sh
+4. 02-deploy-nginx-check.sh
+5. 03-build-metrics-server-image.sh
+6. 03-install-metrics-server-offline.sh
+7. 03-metrics-service-cleanup.sh
+8. 04-verify-metrics.sh
+9. 05-create-hpa.sh
+10. 05-verify-hpa.sh
+11. 06-burn-cpu-inside-nginx.sh
+12. 06-verify-hpa.sh
+13. 06-verify-pods.sh
+14. 07-cleanup.sh
+15. 08-stop-minikube.sh
 
-## Project Structure
+## Key Points
+- HPA scales pods based on CPU usage (not traffic).
+- CPU requests are required for HPA.
+- Scaling up is fast; scaling down is slow by design.
+- `kubectl top` must show metrics for HPA to work.
 
-The scripts are numbered sequentially to guide you through the process:
+**Mental model:** HPA adds pods when busy, but does not move work.
 
-- `00-verify-env.sh`: Verifies that `kubectl`, `minikube`, and `docker` are correctly configured.
-- `01-create-namespace.sh`: Creates a dedicated namespace for the HPA test.
-- `02-deploy-nginx.sh`: Deploys an Nginx application with resource requests and limits.
-- `02-deploy-nginx-check.sh`: Verifies the deployment of Nginx.
-- `03-build-metrics-server-image.sh`: Builds a Docker image for the metrics server.
-- `03-install-metrics-server-offline.sh`: Installs the metrics server in the cluster.
-- `03-metrics-service-cleanup.sh`: Cleans up the metrics server resources.
-- `04-verify-metrics.sh`: Verifies that metrics are being correctly collected.
-- `05-create-hpa.sh`: Creates a Horizontal Pod Autoscaler for the Nginx deployment.
-- `05-verify-hpa.sh`: Verifies the HPA configuration.
-- `06-burn-cpu-inside-nginx.sh`: Generates CPU load inside one of the Nginx pods to trigger HPA.
-- `06-verify-hpa.sh` & `06-verify-pods.sh`: Monitors the HPA status and pod scaling.
-- `07-cleanup.sh`: Removes all resources created during the test.
-
-## How to Run
-
-1.  **Initialize the environment:**
-    ```bash
-    ./00-verify-env.sh
-    ```
-2.  **Follow the script sequence:** Run each script in numeric order to set up, test, and tear down the HPA demonstration.
-
-## Files
-
-- `Dockerfile.metrics-server`: Dockerfile used to build the metrics server image.
-- `metrics-server`: The metrics server binary.
+HPA only increases or decreases the number of pods based on resource usage (like CPU), but it does not redistribute or balance the actual workload (such as requests or CPU tasks) between pods. If one pod is overloaded and others are idle, HPA will add more pods, but it’s up to your application or a load balancer to distribute the work evenly among all pods. HPA only changes the number of pods, not how the work is assigned to them.
